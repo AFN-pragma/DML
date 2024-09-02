@@ -1,0 +1,89 @@
+create database DML
+
+USE DML;
+
+create table Vehicles (
+Vehicle_id INT PRIMARY KEY,
+Licence_plate varchar(20)NOT NULL,
+Make varchar(20)NOT NULL,
+Model varchar(20)NOT NULL,
+Year varchar(20)NOT NULL,
+Color varchar(20)NOT NULL, 
+VIN varchar(20)NOT NULL
+);
+
+
+create table Drivers (
+Driver_id INT PRIMARY KEY,
+First_name varchar(20)NOT NULL,
+Last_name varchar(20)NOT NULL,
+License_number varchar(20)NOT NULL,
+Phone varchar(20)NOT NULL,
+Address varchar(20)NOT NULL, 
+City varchar(20)NOT NULL,
+State varchar(20)NOT NULL,
+Zip_code varchar(20)NOT NULL
+);
+
+
+create table Trips ( 
+Trip_id INT PRIMARY KEY, 
+Vehicle_id INT,
+Driver_id INT,
+Start_date varchar(20)NOT NULL,
+End_date varchar(20)NOT NULL,
+Start_location varchar(20)NOT NULL,
+End_location varchar(20)NOT NULL,
+Distance varchar(20) NOT NULL,
+constraint Vehicle_fk foreign key (Vehicle_id) REFERENCES Vehicles(Vehicle_id)
+ON DELETE CASCADE 
+ON UPDATE CASCADE,
+constraint Driver_fk foreign key (Driver_id) REFERENCES Drivers(Driver_id)
+ON DELETE CASCADE 
+ON UPDATE CASCADE
+);
+
+create table Maintenance (
+Maintenance_id INT PRIMARY KEY,
+Vehicle_id INT,
+Maintenance_date varchar(20)NOT NULL,
+Description varchar (20)NOT NULL, 
+Cost varchar (20)NOT NULL,
+constraint Vehiclé_fk foreign key (Vehicle_id) REFERENCES Vehicles(Vehicle_id)
+ON DELETE CASCADE 
+ON UPDATE CASCADE
+);
+
+insert into Vehicles (Vehicle_id, Licence_plate, Make, Model, Year, Color, VIN)
+values (1,'ABC123', 'Toyota','Corolla',2020,'White','1HGCM82633A004352');
+insert into Vehicles (Vehicle_id, Licence_plate, Make, Model, Year, Color, VIN)
+values (2,'XYZ789', 'Ford','Fusion',2018,'Blue','2HGCM82633A004353');
+insert into Drivers(Driver_id, First_name,Last_name,License_number,Phone,Address,City,State,Zip_code )
+values (100, 'Michael','Smith', 'D1234567', '1234567890', '123 Main St', 'Anytown', 'CA', '12345');
+insert into Drivers(Driver_id, First_name,Last_name,License_number,Phone,Address,City,State,Zip_code )
+values (101,'Sarah', 'Connor','D7654321',0987654321,'456 Elm St','Otherville','NY','54321');
+insert into Maintenance (Maintenance_id, Vehicle_id, Maintenance_date, Description, Cost)
+values (1, 1, '2024-06-15', 'Oil change', 50.00);
+insert into Maintenance (Maintenance_id, Vehicle_id, Maintenance_date, Description, Cost)
+values (2, 2, '2024-06-20', 'Tire replacement', 300.00);
+insert into Trips (Trip_id, Vehicle_id, Driver_id,  Start_date, End_date, Start_location, End_location, Distance )
+values (1, 1, 100,  '2024-07-01',  '2024-07-02',  'Los Angeles',  'San Francisco', 380);
+insert into Trips (Trip_id, Vehicle_id, Driver_id, Start_date, End_date, Start_location, End_location, Distance )
+values (2, 2, 101,  '2024-07-03',  '2024-07-04',  'New York',  'Washington D.C.', 225);
+
+
+update Maintenance
+set Cost = 350.00
+where Vehicle_id = 2;
+
+DELETE FROM Vehicles WHERE Vehicles.Licence_plate = 'ABC123';
+
+insert into Trips (Trip_id, Vehicle_id, Driver_id, Start_date, End_date, Start_location, End_location, Distance )
+values (11, 2,  100, '2024-07-05', '2024-07-06', 'Boston', 'Philadelphia', 300);
+update Vehicles
+set Color= 'Red'
+where Licence_plate = 'XYZ789';
+insert into Maintenance (Maintenance_id, Vehicle_id, Maintenance_date, Description, Cost)
+values (3, 2, '2024-07-10', 'Brake inspection', 100.00);
+delete from Trips
+where Trip_id = 2
